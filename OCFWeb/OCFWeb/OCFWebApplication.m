@@ -1,5 +1,11 @@
-// The MIT License (MIT)
-// Copyright (c) 2013 Objective-Cloud (chris@objective-cloud.com)
+//+ (void)initialize {    if(self == [SinApplication class]) {
+//#if !defined(NS_BLOCK_ASSERTIONS)
+//        [GRMustache preventNSUndefinedKeyExceptionAttack];  // Debug configuration: keep GRMustache quiet
+//#endif
+//}	}
+
+
+// The MIT License (MIT) Copyright (c) 2013 Objective-Cloud (chris@objective-cloud.com)
 // https://github.com/Objective-Cloud/OCFWeb
 
 #import "OCFWebApplication.h"
@@ -14,34 +20,18 @@
 #import "NSDictionary+OCFConfigurationAdditions.h"
 #import "OCFWebServerRequest+OCFWebAdditions.h"
 
-// 3rd. Party =>
-#import <GRMustache/GRMustache.h>
+#import <GRMustache/GRMustache.h>						//	<= 3rd. Party 
 #import <OCFWebServer/OCFWebServer.h>
 #import <OCFWebServer/OCFWebServerResponse.h>
 #import <OCFWebServer/OCFWebServerRequest.h>
 
-@interface OCFWebApplication ()
-
-#pragma mark - Properties
-@property (nonatomic, strong) OCFWebServer *server;
-@property (nonatomic, strong) OCFRouter *router;
-@property (nonatomic, copy) NSDictionary *configuration;
-@property (nonatomic, strong) GRMustacheTemplateRepository *templateRepository;
-
-@end
+@interface 							   OCFWebApplication( )
+@property (nonatomic) 	   			  OCFWebServer * server;
+@property (nonatomic) 						  OCFRouter * router;
+@property (nonatomic,copy) 			  NSDictionary * configuration;
+@property (nonatomic) GRMustacheTemplateRepository * templateRepository;		@end
 
 @implementation OCFWebApplication
-//+ (void)initialize
-//{
-//    if(self == [SinApplication class])
-//    {
-//#if !defined(NS_BLOCK_ASSERTIONS)
-//        // Debug configuration: keep GRMustache quiet
-//        [GRMustache preventNSUndefinedKeyExceptionAttack];
-//#endif
-//
-//    }
-//}
 
 #pragma mark - Creating an Application
 
@@ -49,259 +39,189 @@
 // The reason is that OCFWebApplication needs to know the bundle of the enclosing
 // application to that it can find the templates for the Mustache template engine.
 // You should have no need to use this initializer at all. Using -init is good enough.
-- (instancetype)initWithBundle:(NSBundle *)bundle {
-  self = [super init];
-  if(self) {
-    self.router = [OCFRouter new];
-    self.templateRepository = [GRMustacheTemplateRepository templateRepositoryWithBundle:(bundle != nil ? bundle : [NSBundle mainBundle])];
-    [self _setupDefaultConfiguration];
-  }
-  return self;
-  
-}
 
-- (instancetype)init {
-  return [self initWithBundle:nil];
+- (instancetype)initWithBundle:(NSBundle *)bundle { return self = super.init ? _router = OCFRouter.new,
+	_templateRepository = [GRMustacheTemplateRepository templateRepositoryWithBundle:(bundle != nil ? bundle : NSBundle.mainBundle)],
+	[self _setupDefaultConfiguration], self : nil;
 }
+- (instancetype)init { return [self initWithBundle:nil]; }
 
-- (void)_setupDefaultConfiguration {
-  NSDictionary *staticHeaders = @{ @"X-XSS-Protection" : @"1; mode=block",
-                                   @"X-Content-Type-Options" : @"nosniff",
-                                   @"X-Frame-Options" : @"SAMEORIGIN"
-                                   };
-  self.configuration = @{ @"status" : @200, @"headers" : staticHeaders, @"contentType" : @"text/html;charset=utf-8" };
+- (void)_setupDefaultConfiguration {	NSDictionary *staticHeaders = 
+
+	@{ @"X-XSS-Protection" : @"1; mode=block", @"X-Content-Type-Options" : @"nosniff", @"X-Frame-Options" : @"SAMEORIGIN"};
+	self.configuration = @{ @"status" : @200, @"headers" : staticHeaders, @"contentType" : @"text/html;charset=utf-8" };
 }
 
 #pragma mark - Adding Handlers
-- (void)handle:(NSString *)methodPattern requestsMatching:(NSString *)pathPattern withBlock:(OCFWebApplicationRequestHandler)requestHandler {
-  NSParameterAssert(methodPattern);
-  NSParameterAssert(pathPattern);
-  NSParameterAssert(requestHandler);
-  self[methodPattern][pathPattern] = requestHandler;
+
+- (void)handle:(NSString *)mthdPtrn requestsMatching:(NSString*)pthPtrn withBlock:(OCFWebApplicationRequestHandler)reqHndlr {
+
+	NSParameterAssert(mthdPtrn); NSParameterAssert(pthPtrn); NSParameterAssert(reqHndlr); self[mthdPtrn][pthPtrn] = reqHndlr;
 }
 
-- (id)objectForKeyedSubscript:(id <NSCopying>)key {
-  NSParameterAssert(key);
-  NSParameterAssert([object_getClass(key) isSubclassOfClass:[NSString class]]); // make sure key is a string
-  
-  // key is a HTTP method regular expression
-  // -methodRoutesPairForRequestWithMethodPattern: creates the pair object if it does not already exist.
-  return [self.router methodRoutesPairForRequestWithMethodPattern:(NSString *)key];
+- (id)objectForKeyedSubscript:(id <NSCopying>)key {	NSParameterAssert(key);
+	NSParameterAssert([object_getClass(key) isSubclassOfClass:NSString.class]); // make sure key is a string
+	// key is a HTTP method regular expression
+	// -methodRoutesPairForRequestWithMethodPattern: creates the pair object if it does not already exist.
+	return [self.router methodRoutesPairForRequestWithMethodPattern:(NSString*)key];
 }
-
 #pragma mark - Controlling the Application
-- (void)run {
-  [self runOnPort:0];
-}
+- (void)run { [self runOnPort:0]; }
 
-- (void)_handleResponse:(id)response withOriginalRequest:(OCFWebServerRequest *)originalRequest {
-  __typeof__(self) __weak weakSelf = self;
-  if([response isKindOfClass:[OCFResponse class]]) {
-    [originalRequest respondWith:[weakSelf makeValidWebServerResponseWithResponse:response]];
-    return;
-  }
-  
-  if([response isKindOfClass:[NSString class]]) {
-    OCFResponse *webRequest = [[OCFResponse alloc] initWithStatus:0 headers:nil body:[response dataUsingEncoding:NSUTF8StringEncoding]];
-    [originalRequest respondWith:[weakSelf makeValidWebServerResponseWithResponse:webRequest]];
-    return;
-  }
-  
-  if([response isKindOfClass:[NSDictionary class]]) {
-    NSDictionary *dictionaryResponse = response;
-    OCFResponse *webResponse = [[OCFResponse alloc] initWithProperties:dictionaryResponse];
-    [originalRequest respondWith:[weakSelf makeValidWebServerResponseWithResponse:webResponse]];
-    return;
-  }
-  
-  if([response isKindOfClass:[OCFMustache class]]) {
-    OCFMustache *mustache = response;
-    
-    // Evaluate
-    NSError *repositoryError = nil;
-    GRMustacheTemplate *template = [weakSelf.templateRepository templateNamed:mustache.name error:&repositoryError];
-    if(template == nil) {
-      NSLog(@"Failed to load template: %@", repositoryError);
-      [originalRequest respondWith:nil]; // FIXME: nil is not a good response
-      return;
-    }
-    
-    NSError *renderError = nil;
-    NSString *renderedObject = [template renderObject:mustache.object error:&renderError];
-    if(renderedObject == nil) {
-      NSLog(@"Failed to render object (%@): %@", mustache.object, renderError);
-      [originalRequest respondWith:nil]; // FIXME: nil is not a good response
-      return;
-    }
-    
-    OCFResponse *webResponse = [[OCFResponse alloc] initWithStatus:200 headers:nil body:[renderedObject dataUsingEncoding:NSUTF8StringEncoding]];
-    [originalRequest respondWith:[weakSelf makeValidWebServerResponseWithResponse:webResponse]];
-    return;
-  }
-  [originalRequest respondWith:nil]; // FIXME: nil is not a good response
+- (void)_handleResponse:(id)response withOriginalRequest:(OCFWebServerRequest *)originalRequest { __typeof__(self) __weak wSelf = self;
+
+	if([response isKindOfClass:OCFResponse.class])
+	return [originalRequest respondWith:[wSelf makeValidWebServerResponseWithResponse:response]];
+
+	if([response isKindOfClass:[NSString class]]) {
+		OCFResponse *webRequest = [[OCFResponse alloc] initWithStatus:0 headers:nil body:[response dataUsingEncoding:NSUTF8StringEncoding]];
+		[originalRequest respondWith:[wSelf makeValidWebServerResponseWithResponse:webRequest]];
+		return;
+	}
+	if([response isKindOfClass:NSDictionary.class]) 
+		return [originalRequest respondWith: [wSelf makeValidWebServerResponseWithResponse:
+																	[OCFResponse.alloc initWithProperties:(NSDictionary*)response]]];
+		
+	
+	if([response isKindOfClass:OCFMustache.class]) { OCFMustache *mustache = response; NSError *renderE = nil, *reposE = nil;  
+	
+		// FIXME: nil is not a good response  Evaluate 
+		__block GRMustacheTemplate *temp 	= [wSelf.templateRepository templateNamed:mustache.name error:&reposE];
+		if(!temp) return NSLog(@"Failed to load template: %@", reposE), [originalRequest respondWith:nil]; 
+		else if (self.newTemplateBlock) _newTemplateBlock(self,temp);
+		
+		__block NSString *rendered 	= [temp renderObject:mustache.object error:&renderE];
+		if(!rendered) return NSLog(@"Failed to render object (%@): %@", mustache.object, renderE), [originalRequest respondWith:nil]; 
+		else if (self.newRenderedBlock) _newRenderedBlock(self,rendered);
+		
+		OCFResponse *webResponse = [OCFResponse.alloc initWithStatus:200 headers:nil 
+																				  body:[rendered dataUsingEncoding:NSUTF8StringEncoding]];
+		
+		[originalRequest respondWith:[wSelf makeValidWebServerResponseWithResponse:webResponse]]; return;
+	}
+	[originalRequest respondWith:nil]; // FIXME: nil is not a good response
 }
 
 - (void)runOnPort:(NSUInteger)port {
-  self.server = [OCFWebServer new];
-  __typeof__(self) __weak weakSelf = self;
-  [self.server addHandlerWithMatchBlock:^OCFWebServerRequest *(NSString *requestMethod, NSURL *requestURL, NSDictionary *requestHeaders, NSString *urlPath, NSDictionary *urlQuery) {
-    Class requestClass = Nil;
-    NSString *contentType = requestHeaders[@"Content-Type"];
-    
-    if(contentType != nil) {
-      if([contentType isEqualToString:[OCFWebServerURLEncodedFormRequest mimeType]]) {
-        requestClass = [OCFWebServerURLEncodedFormRequest class];
-      }
-      if([contentType hasPrefix:[OCFWebServerMultiPartFormRequest mimeType]]) {
-        requestClass = [OCFWebServerMultiPartFormRequest class];
-      }
-    }
-    
-    if(requestClass == Nil) {
-      requestClass = [OCFWebServerRequest class];
-      NSString *contentLengthAsString = requestHeaders[@"Content-Length"];
-      NSInteger contentLength = [contentLengthAsString integerValue];
-      if(contentLengthAsString != nil && contentLength > 0) {
-        requestClass = [OCFWebServerDataRequest class];
-      }
-    }
-    
-    OCFWebServerRequest *result = [[requestClass alloc] initWithMethod:requestMethod URL:requestURL headers:requestHeaders path:urlPath query:urlQuery];
-    return result;
-  } processBlock:^void(OCFWebServerRequest *request) {
-    NSString *requestMethod = request.method;
-    
-    // Method Overriding
-    NSDictionary *requestParameters = [request additionalParameters_ocf];
-    if(requestParameters[@"_method"] != nil) {
-      requestMethod = requestParameters[@"_method"];
-    }
-    
-    // Dispatch the request
-    OCFRoute *route = [weakSelf.router routeForRequestWithMethod:requestMethod requestPath:request.path];
-    
-    if(route == nil) {
-      NSLog(@"[WebApplication] No route found for %@ %@.", request.method, request.path);
-      OCFResponse *response = nil;
-      if(weakSelf.delegate != nil && [weakSelf.delegate respondsToSelector:@selector(application:asynchronousResponseForRequestWithNoAssociatedHandler:)]) {
-        OCFRequest *webRequest = [[OCFRequest alloc] initWithWebServerRequest:request parameters:nil];
-        webRequest.method = requestMethod;
-        [webRequest setRespondWith:^(id response) {
-          if(response == nil) {
-            response = [[OCFResponse alloc] initWithStatus:404 headers:nil body:nil];
-          }
-          [weakSelf _handleResponse:response withOriginalRequest:request];
-        }];
-        [weakSelf.delegate application:weakSelf asynchronousResponseForRequestWithNoAssociatedHandler:webRequest];
-      } else {
-        // The delegate did not return anything useful so we have to generate a 404 response
-        response = [[OCFResponse alloc] initWithStatus:404 headers:nil body:nil];
-        [weakSelf _handleResponse:response withOriginalRequest:request];
-        return;
-      }
-      return;
-    }
-    
-    NSDictionary *parameters = [weakSelf parametersFromRequest:request withRoute:route];
-    
-    OCFRequest *webRequest = [[OCFRequest alloc] initWithWebServerRequest:request parameters:parameters];
-    [webRequest setRespondWith:^(id response) {
-      [weakSelf _handleResponse:response withOriginalRequest:request];
-    }];
-    
-    route.requestHandler(webRequest);
-  }];
-  [self.server startWithPort:port bonjourName:nil];
+
+	self.server = [OCFWebServer new]; 	__typeof__(self) __weak wSelf = self;
+	
+	[self.server addHandlerWithMatchBlock:^OCFWebServerRequest *(NSString *requestMethod, NSURL *requestURL, NSDictionary *requestHeaders, NSString *urlPath, NSDictionary *urlQuery) {
+		Class requestClass = Nil;
+		NSString *contentType = requestHeaders[@"Content-Type"];
+		
+		if(contentType != nil)			
+				requestClass = [contentType isEqualToString:OCFWebServerURLEncodedFormRequest.mimeType]
+								 ? [OCFWebServerURLEncodedFormRequest class] 
+		 						 : [contentType hasPrefix:[OCFWebServerMultiPartFormRequest mimeType]]
+								 ? [OCFWebServerMultiPartFormRequest class] : requestClass;
+		
+		if(requestClass == nil) {
+			requestClass 							= OCFWebServerRequest.class;
+			NSString *contentLengthAsString 	= requestHeaders[@"Content-Length"];
+			NSInteger contentLength 			= contentLengthAsString.integerValue;
+			if(contentLengthAsString != nil && contentLength > 0)  requestClass = [OCFWebServerDataRequest class];
+		}
+		OCFWebServerRequest *result = [requestClass.alloc initWithMethod:requestMethod   URL:requestURL 
+																					headers:requestHeaders path:urlPath query:urlQuery];
+		return result;
+	} processBlock:^void(OCFWebServerRequest *request) {
+		NSString *requestMethod = request.method;
+		
+		// Method Overriding
+		NSDictionary *requestParameters = [request additionalParameters_ocf];
+		if(requestParameters[@"_method"] != nil) {
+			requestMethod = requestParameters[@"_method"];
+		}
+		
+		// Dispatch the request
+		OCFRoute *route = [wSelf.router routeForRequestWithMethod:requestMethod requestPath:request.path];
+		
+		if(route == nil) {
+			NSLog(@"[WebApplication] No route found for %@ %@.", request.method, request.path);
+			OCFResponse *response = nil;
+			if(wSelf.delegate && [wSelf.delegate respondsToSelector:@selector(application:asynchronousResponseForRequestWithNoAssociatedHandler:)]) {
+				OCFRequest *webRequest = [[OCFRequest alloc] initWithWebServerRequest:request parameters:nil];
+				webRequest.method = requestMethod;
+				[webRequest setRespondWith:^(id response) {
+					response = response ?: [OCFResponse.alloc initWithStatus:404 headers:nil body:nil];
+					[wSelf _handleResponse:response withOriginalRequest:request];
+				}];
+				[wSelf.delegate application:wSelf asynchronousResponseForRequestWithNoAssociatedHandler:webRequest];
+			} else {
+				// The delegate did not return anything useful so we have to generate a 404 response
+				response = [[OCFResponse alloc] initWithStatus:404 headers:nil body:nil];
+				[wSelf _handleResponse:response withOriginalRequest:request];
+				return;
+			}
+			return;
+		}
+		
+		NSDictionary *parameters 	= [wSelf parametersFromRequest:request withRoute:route];
+		OCFRequest *webRequest 		= [OCFRequest.alloc initWithWebServerRequest:request parameters:parameters];
+		[webRequest setRespondWith:^(id response) { [wSelf _handleResponse:response withOriginalRequest:request]; }];
+		route.requestHandler(webRequest);
+	}];
+	[self.server startWithPort:port bonjourName:nil];
 }
 
-- (void)stop {
-  NSAssert(self.server != nil, @"Called -stop with no running server.");
-  [self.server stop];
-}
+- (void)stop { NSAssert(self.server != nil, @"Called -stop with no running server."); 	[self.server stop]; }
 
 #pragma mark - Properties
-- (NSUInteger)port {
-  if(self.server == nil) {
-    return 0;
-  }
-  return self.server.port;
-}
+
+- (NSUInteger)port {  return _server ? _server.port : 0; }
 
 #pragma mark - Aspects
 // Imporant: The response passed to this method is valid according to the configuration.
 //           This method SHOULD return a respons which is valid according to the configuration.
-- (OCFResponse *)willDeliverResponse:(OCFResponse *)response {
-  OCFResponse *result = response;
-  
-  // Ask the Delegate first
-  if([self.delegate respondsToSelector:@selector(application:willDeliverResponse:)]) {
-    OCFResponse *responseFromDelegate = [self.delegate application:self willDeliverResponse:response];
-    if(responseFromDelegate != nil) {
-      result = responseFromDelegate;
-    }
-  }
-  
-  // Last chance for SinApplication to modify the response
-  return result;
+- (OCFResponse *)willDeliverResponse:(OCFResponse *)response { 	//OCFResponse *result = response;
+	
+	// Ask the Delegate first
+	
+	return [self.delegate respondsToSelector:@selector(application:willDeliverResponse:)] //responseFromDelegate
+	? (OCFResponse*)[self.delegate application:self willDeliverResponse:response] ?: response : response;
+	
+	// Last chance for SinApplication to modify the response
+//	return result;
 }
 
 #pragma mark - Private Helper Methods
 - (NSDictionary *)parametersFromRequest:(OCFWebServerRequest *)request withRoute:(OCFRoute *)route {
-  NSDictionary *patternParameters = [route parametersWithRequestPath:request.URL.path];
-  
-  NSMutableDictionary *result = [NSMutableDictionary new];
-  [result addEntriesFromDictionary:patternParameters];
-  
-  NSDictionary *requestParameters = [request additionalParameters_ocf];
-  [result addEntriesFromDictionary:requestParameters];
-  
-  if(request.query != nil) {
-    [result addEntriesFromDictionary:request.query];
-  }
-  return result;
+	NSDictionary *patternParameters = [route parametersWithRequestPath:request.URL.path];
+	
+	NSMutableDictionary *result; //, *requestParameters;
+	 
+	[result = NSMutableDictionary.new addEntriesFromDictionary:patternParameters];
+	[result addEntriesFromDictionary: request.additionalParameters_ocf]; // requestParameters
+	
+	if(request.query != nil) 	[result addEntriesFromDictionary:request.query];
+	return result;
 }
 
 // Pass a potential invalid response to this method.
-- (OCFResponse *)makeResponseValidAccordingToConfiguration:(OCFResponse *)response {
-  NSParameterAssert(response);
-  
-  // Check the status
-  NSInteger status = response.status;
-  if(status == 0) {
-    status = self.configuration.defaultStatus_ocf;
-  }
-  
-  // Headers and Content-Type
-  NSMutableDictionary *mutableHeaders = [response.headers mutableCopy];
-  
-  if(response.contentType == nil) {
-    mutableHeaders[@"Content-Type"] = self.configuration.defaultContentType_ocf;
-  }
-  
-  [mutableHeaders addEntriesFromDictionary:self.configuration.defaultHeaders_ocf];
-  
-  OCFResponse *validResponse = [[OCFResponse alloc] initWithStatus:status headers:mutableHeaders body:response.body];
-  return validResponse;
+- (OCFResponse *)makeResponseValidAccordingToConfiguration:(OCFResponse *)response { NSParameterAssert(response);
+
+	NSInteger status = response.status ?: self.configuration.defaultStatus_ocf; 	// Check the status
+	NSMutableDictionary *mutableHeaders = response.headers.mutableCopy;	// Headers and Content-Type
+	if(response.contentType == nil)  mutableHeaders[@"Content-Type"] = self.configuration.defaultContentType_ocf;
+	[mutableHeaders addEntriesFromDictionary:self.configuration.defaultHeaders_ocf];
+	return [OCFResponse.alloc initWithStatus:status headers:mutableHeaders body:response.body]; // validResponse
 }
 
-- (OCFWebServerResponse *)makeValidWebServerResponseWithResponse:(OCFResponse *)response {
-  NSParameterAssert(response);
-  OCFResponse *validResponse = [self makeResponseValidAccordingToConfiguration:response];
-  OCFResponse *modifiedResponse = [self willDeliverResponse:validResponse];
-  validResponse = [self makeResponseValidAccordingToConfiguration:modifiedResponse];
-  return [self _makeWebServerResponseWithResponse:validResponse];
+- (OCFWebServerResponse *)makeValidWebServerResponseWithResponse:(OCFResponse *)response { NSParameterAssert(response);
+	OCFResponse *validResponse 	= [self makeResponseValidAccordingToConfiguration:response], 
+					*modifiedResponse = [self willDeliverResponse:validResponse];
+					validResponse 		= [self makeResponseValidAccordingToConfiguration:modifiedResponse];
+									 return [self _makeWebServerResponseWithResponse:validResponse];
 }
 
-- (OCFWebServerResponse *)_makeWebServerResponseWithResponse:(OCFResponse *)response {
-  NSParameterAssert(response);
-  
-  OCFWebServerResponse *result = [OCFWebServerDataResponse responseWithData:response.body contentType:response.contentType];
-  [response.headers enumerateKeysAndObjectsUsingBlock:^(NSString *headerName, NSString *headerValue, BOOL *stop) {
-    [result setValue:headerValue forAdditionalHeader:headerName];
-  }];
-  result.statusCode = response.status;
-  
-  return result;
+- (OCFWebServerResponse *)_makeWebServerResponseWithResponse:(OCFResponse *)response {	NSParameterAssert(response);
+	
+	OCFWebServerResponse *result = [OCFWebServerDataResponse responseWithData:response.body contentType:response.contentType];
+	[response.headers enumerateKeysAndObjectsUsingBlock:^(NSString *headerName, NSString *headerValue, BOOL *stop) {
+		[result setValue:headerValue forAdditionalHeader:headerName];
+	}];
+	result.statusCode = response.status;		return result;
 }
 
 @end

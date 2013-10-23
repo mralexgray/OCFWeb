@@ -16,12 +16,7 @@
 
 #pragma mark - Creating a Mustache "Response"
 - (instancetype)initWithName:(NSString *)name object:(id)object {
-    self = [super init];
-    if(self) {
-        self.name = name;
-        self.object = object;
-    }
-    return self;
+    return self = [super init] ? _name = name,  _object = object, self : nil;
 }
 
 - (instancetype)init {
@@ -32,5 +27,7 @@
     return [[[self class] alloc] initWithName:name object:object];
 }
 
++ (NSString*)templateForName:			(NSString*)name {
 
+}
 @end

@@ -7,7 +7,8 @@
 @interface OCFMustache : NSObject
 
 #pragma mark - Creating a Mustache "Response"
-+ (instancetype)newMustacheWithName:(NSString *)name object:(id)object;
++ (instancetype)newMustacheWithName:(NSString*)name object:(id)object;
++ (NSString*)templateForName:			(NSString*)name;
 
 #pragma mark - Properties
 @property (nonatomic, copy, readonly) NSString *name;

@@ -7,17 +7,70 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB6A10AB17D0D85100D13A0F /* OCFWeb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6A10AA17D0D85100D13A0F /* OCFWeb.framework */; };
-		AB6A10AC17D0D85800D13A0F /* OCFWeb.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AB6A10AA17D0D85100D13A0F /* OCFWeb.framework */; };
+		7B644CE2181590030036D205 /* OCFWeb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B644CDD18158FFA0036D205 /* OCFWeb.framework */; };
+		7B69961E1817359D00CAD9E2 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B644CEC181647BF0036D205 /* ACEView.framework */; };
+		7B699620181743FE00CAD9E2 /* AtoZ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B644CE3181590340036D205 /* AtoZ.framework */; };
+		7B699621181745BD00CAD9E2 /* ACEView.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7B644CEC181647BF0036D205 /* ACEView.framework */; };
+		7B699622181745BD00CAD9E2 /* OCFWeb.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7B644CDD18158FFA0036D205 /* OCFWeb.framework */; };
 		AB9425E517AE512C0053D2F6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9425E417AE512C0053D2F6 /* Cocoa.framework */; };
-		AB9425EF17AE512C0053D2F6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB9425ED17AE512C0053D2F6 /* InfoPlist.strings */; };
 		AB9425F117AE512C0053D2F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9425F017AE512C0053D2F6 /* main.m */; };
-		AB9425F517AE512C0053D2F6 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AB9425F317AE512C0053D2F6 /* Credits.rtf */; };
 		AB9425F817AE512C0053D2F6 /* OCFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9425F717AE512C0053D2F6 /* OCFAppDelegate.m */; };
 		AB9425FB17AE512C0053D2F6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB9425F917AE512C0053D2F6 /* MainMenu.xib */; };
 		AB94268217AE6B530053D2F6 /* Persons.mustache in Resources */ = {isa = PBXBuildFile; fileRef = AB94268017AE6B530053D2F6 /* Persons.mustache */; };
 		AB94268917AE7BE80053D2F6 /* PersonDetail.mustache in Resources */ = {isa = PBXBuildFile; fileRef = AB94268717AE7BE80053D2F6 /* PersonDetail.mustache */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7B644CDC18158FFA0036D205 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B644CD718158FFA0036D205 /* OCFWeb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB94260B17AE51AB0053D2F6;
+			remoteInfo = OCFWeb;
+		};
+		7B644CDE18158FFA0036D205 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B644CD718158FFA0036D205 /* OCFWeb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB94262317AE51AC0053D2F6;
+			remoteInfo = OCFWebTests;
+		};
+		7B644CE018158FFD0036D205 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B644CD718158FFA0036D205 /* OCFWeb.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB94260A17AE51AB0053D2F6;
+			remoteInfo = OCFWeb;
+		};
+		7B644CEB181647BF0036D205 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7C8A728C15EA0769007E5EB8;
+			remoteInfo = ACEView;
+		};
+		7B644CED181647BF0036D205 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7C8A72E015EA0F0E007E5EB8;
+			remoteInfo = ACEVIewExample;
+		};
+		7B644CEF181647BF0036D205 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 36F169E216B9346C00E8965C;
+			remoteInfo = ACEViewTests;
+		};
+		7B644CF1181647C70036D205 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C8A728B15EA0769007E5EB8;
+			remoteInfo = ACEView;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		AB6A10A817D0D81A00D13A0F /* Copy Frameworks */ = {
@@ -26,7 +79,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AB6A10AC17D0D85800D13A0F /* OCFWeb.framework in Copy Frameworks */,
+				7B699621181745BD00CAD9E2 /* ACEView.framework in Copy Frameworks */,
+				7B699622181745BD00CAD9E2 /* OCFWeb.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -34,17 +88,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AB6A10AA17D0D85100D13A0F /* OCFWeb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCFWeb.framework; path = "../../../Library/Developer/Xcode/DerivedData/OCFWeb-evubwishqoxzsxfsmvxurbhjycvc/Build/Products/Debug/OCFWeb.framework"; sourceTree = "<group>"; };
+		7B644CD718158FFA0036D205 /* OCFWeb.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCFWeb.xcodeproj; path = ../OCFWeb/OCFWeb.xcodeproj; sourceTree = "<group>"; };
+		7B644CE3181590340036D205 /* AtoZ.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AtoZ.framework; path = System/Library/Frameworks/AtoZ.framework; sourceTree = SDKROOT; };
+		7B644CE5181647BE0036D205 /* ACEView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ACEView.xcodeproj; path = ../../ACEView/ACEView.xcodeproj; sourceTree = "<group>"; };
 		AB9425E117AE512C0053D2F6 /* OCFWeb Mac Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OCFWeb Mac Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB9425E417AE512C0053D2F6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		AB9425E717AE512C0053D2F6 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		AB9425E817AE512C0053D2F6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AB9425E917AE512C0053D2F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AB9425EC17AE512C0053D2F6 /* OCFWeb Mac Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OCFWeb Mac Example-Info.plist"; sourceTree = "<group>"; };
-		AB9425EE17AE512C0053D2F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AB9425F017AE512C0053D2F6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AB9425F217AE512C0053D2F6 /* OCFWeb Mac Example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OCFWeb Mac Example-Prefix.pch"; sourceTree = "<group>"; };
-		AB9425F417AE512C0053D2F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		AB9425F617AE512C0053D2F6 /* OCFAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCFAppDelegate.h; sourceTree = "<group>"; };
 		AB9425F717AE512C0053D2F6 /* OCFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCFAppDelegate.m; sourceTree = "<group>"; };
 		AB9425FA17AE512C0053D2F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -57,7 +111,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB6A10AB17D0D85100D13A0F /* OCFWeb.framework in Frameworks */,
+				7B699620181743FE00CAD9E2 /* AtoZ.framework in Frameworks */,
+				7B69961E1817359D00CAD9E2 /* ACEView.framework in Frameworks */,
+				7B644CE2181590030036D205 /* OCFWeb.framework in Frameworks */,
 				AB9425E517AE512C0053D2F6 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -65,10 +121,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B644CD818158FFA0036D205 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B644CDD18158FFA0036D205 /* OCFWeb.framework */,
+				7B644CDF18158FFA0036D205 /* OCFWebTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7B644CE6181647BE0036D205 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B644CEC181647BF0036D205 /* ACEView.framework */,
+				7B644CEE181647BF0036D205 /* ACE View Example.app */,
+				7B644CF0181647BF0036D205 /* ACEViewTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		AB9425D817AE512C0053D2F6 = {
 			isa = PBXGroup;
 			children = (
-				AB6A10AA17D0D85100D13A0F /* OCFWeb.framework */,
+				7B644CE5181647BE0036D205 /* ACEView.xcodeproj */,
+				7B644CD718158FFA0036D205 /* OCFWeb.xcodeproj */,
 				AB9425EA17AE512C0053D2F6 /* OCFWeb Mac Example */,
 				AB9425E317AE512C0053D2F6 /* Frameworks */,
 				AB9425E217AE512C0053D2F6 /* Products */,
@@ -86,6 +162,7 @@
 		AB9425E317AE512C0053D2F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7B644CE3181590340036D205 /* AtoZ.framework */,
 				AB9425E417AE512C0053D2F6 /* Cocoa.framework */,
 				AB9425E617AE512C0053D2F6 /* Other Frameworks */,
 			);
@@ -117,10 +194,8 @@
 			isa = PBXGroup;
 			children = (
 				AB9425EC17AE512C0053D2F6 /* OCFWeb Mac Example-Info.plist */,
-				AB9425ED17AE512C0053D2F6 /* InfoPlist.strings */,
 				AB9425F017AE512C0053D2F6 /* main.m */,
 				AB9425F217AE512C0053D2F6 /* OCFWeb Mac Example-Prefix.pch */,
-				AB9425F317AE512C0053D2F6 /* Credits.rtf */,
 				AB94268017AE6B530053D2F6 /* Persons.mustache */,
 				AB94268717AE7BE80053D2F6 /* PersonDetail.mustache */,
 			);
@@ -142,6 +217,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				7B644CF2181647C70036D205 /* PBXTargetDependency */,
+				7B644CE118158FFD0036D205 /* PBXTargetDependency */,
 			);
 			name = "OCFWeb Mac Example";
 			productName = "OCFWeb Mac Example";
@@ -168,6 +245,16 @@
 			mainGroup = AB9425D817AE512C0053D2F6;
 			productRefGroup = AB9425E217AE512C0053D2F6 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 7B644CE6181647BE0036D205 /* Products */;
+					ProjectRef = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
+				},
+				{
+					ProductGroup = 7B644CD818158FFA0036D205 /* Products */;
+					ProjectRef = 7B644CD718158FFA0036D205 /* OCFWeb.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				AB9425E017AE512C0053D2F6 /* OCFWeb Mac Example */,
@@ -175,13 +262,50 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		7B644CDD18158FFA0036D205 /* OCFWeb.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCFWeb.framework;
+			remoteRef = 7B644CDC18158FFA0036D205 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B644CDF18158FFA0036D205 /* OCFWebTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCFWebTests.octest;
+			remoteRef = 7B644CDE18158FFA0036D205 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B644CEC181647BF0036D205 /* ACEView.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ACEView.framework;
+			remoteRef = 7B644CEB181647BF0036D205 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B644CEE181647BF0036D205 /* ACE View Example.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			name = "ACE View Example.app";
+			path = ACEVIewExample.app;
+			remoteRef = 7B644CED181647BF0036D205 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B644CF0181647BF0036D205 /* ACEViewTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ACEViewTests.octest;
+			remoteRef = 7B644CEF181647BF0036D205 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		AB9425DF17AE512C0053D2F6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB9425EF17AE512C0053D2F6 /* InfoPlist.strings in Resources */,
-				AB9425F517AE512C0053D2F6 /* Credits.rtf in Resources */,
 				AB9425FB17AE512C0053D2F6 /* MainMenu.xib in Resources */,
 				AB94268217AE6B530053D2F6 /* Persons.mustache in Resources */,
 				AB94268917AE7BE80053D2F6 /* PersonDetail.mustache in Resources */,
@@ -202,23 +326,20 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		7B644CE118158FFD0036D205 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OCFWeb;
+			targetProxy = 7B644CE018158FFD0036D205 /* PBXContainerItemProxy */;
+		};
+		7B644CF2181647C70036D205 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ACEView;
+			targetProxy = 7B644CF1181647C70036D205 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
-		AB9425ED17AE512C0053D2F6 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AB9425EE17AE512C0053D2F6 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		AB9425F317AE512C0053D2F6 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AB9425F417AE512C0053D2F6 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
 		AB9425F917AE512C0053D2F6 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -306,14 +427,18 @@
 		AB9425FF17AE512C0053D2F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_MODULES_AUTOLINK = NO;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/OCFWeb-evubwishqoxzsxfsmvxurbhjycvc/Build/Products/Debug\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_LINK_WITH_DYNAMIC_LIBRARIES = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OCFWeb Mac Example/OCFWeb Mac Example-Prefix.pch";
 				INFOPLIST_FILE = "OCFWeb Mac Example/OCFWeb Mac Example-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -322,14 +447,18 @@
 		AB94260017AE512C0053D2F6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_MODULES_AUTOLINK = NO;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/OCFWeb-evubwishqoxzsxfsmvxurbhjycvc/Build/Products/Debug\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_LINK_WITH_DYNAMIC_LIBRARIES = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OCFWeb Mac Example/OCFWeb Mac Example-Prefix.pch";
 				INFOPLIST_FILE = "OCFWeb Mac Example/OCFWeb Mac Example-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

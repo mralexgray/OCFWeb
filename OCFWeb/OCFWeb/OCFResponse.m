@@ -12,56 +12,33 @@ const struct OCFResponseAttributes OCFResponseAttributes = {
 
 @implementation NSDictionary (OCFResponseAdditions)
 
-- (NSInteger)status_ocf {
-    NSNumber *status = self[OCFResponseAttributes.status];
-    if(status == nil) {
-        return 0;
-    }
-    return status.integerValue;
-}
-
-- (NSDictionary *)headers_ocf {
-    return self[OCFResponseAttributes.headers];
-}
-
-- (NSData *)body_ocf {
-    return self[OCFResponseAttributes.body];
-}
-
+-     (NSInteger) status_ocf 	{ NSNumber *status = self[OCFResponseAttributes.status]; return status ? status.integerValue : 0; }
+- (NSDictionary*) headers_ocf { return self[OCFResponseAttributes.headers]; 	}
+- 		  (NSData*) body_ocf 	{ return self[OCFResponseAttributes.body]; 		}
 @end
 
 @interface OCFResponse ()
-
 #pragma mark - Properties
-@property (nonatomic, assign, readwrite) NSInteger status;
-@property (nonatomic, copy, readwrite) NSDictionary *headers;
-@property (nonatomic, copy, readwrite) NSData *body;
-
+@property (nonatomic,assign,readwrite) NSInteger status;
+@property (nonatomic,copy,readwrite) NSDictionary *headers;
+@property (nonatomic,copy,readwrite) NSData *body;
 @end
 
 @implementation OCFResponse
 
 #pragma mark - Creating
 - (instancetype)initWithStatus:(NSInteger)status headers:(NSDictionary *)headers body:(NSData *)body {
-    self = [super init];
-    if(self) {
-        self.status = status;
-        self.headers = (headers == nil) ? @{} : headers;
-        self.body = (body == nil) ? [NSData new] : body;
-    }
-    return self;
+	return self = [super init] ? _status = status,  _headers = headers ?: @{}, _body = body ?: NSData.new, self : nil;
 }
 
 - (instancetype)initWithProperties:(NSDictionary *)properties {
-    NSInteger status = [properties status_ocf];
-    NSDictionary *headers = [properties headers_ocf];
-    NSData *body = [properties body_ocf];
+    NSInteger status 		= [properties status_ocf];
+    NSDictionary *headers 	= [properties headers_ocf];
+    NSData *body 				= [properties body_ocf];
     return [self initWithStatus:status headers:headers body:body];
 }
 
-- (instancetype)init {
-    return [self initWithStatus:0 headers:nil body:nil];
-}
+- (instancetype)init { return [self initWithStatus:0 headers:nil body:nil]; }
 
 #pragma mark - Convenience
 - (NSString *)contentType {

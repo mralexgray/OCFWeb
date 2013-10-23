@@ -120,11 +120,10 @@
 		AB94260117AE51AB0053D2F6 = {
 			isa = PBXGroup;
 			children = (
-				AB94261417AE51AB0053D2F6 /* OCFWeb */,
+				AB94266B17AE557D0053D2F6 /* OCFWeb Public API */,
+				AB94266C17AE559C0053D2F6 /* OCFWeb Implementation */,
+				AB94261517AE51AB0053D2F6 /* OCFWeb Supporting Files */,
 				AB94262A17AE51AC0053D2F6 /* OCFWebTests */,
-				AB94260D17AE51AB0053D2F6 /* Frameworks */,
-				AB94260C17AE51AB0053D2F6 /* Products */,
-				40E7359C8540412BBAFEFB5B /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -135,6 +134,7 @@
 				AB94262317AE51AC0053D2F6 /* OCFWebTests.octest */,
 			);
 			name = Products;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		AB94260D17AE51AB0053D2F6 /* Frameworks */ = {
@@ -146,6 +146,7 @@
 				D92E6B0A2F124FD387BD48AC /* libPods.a */,
 			);
 			name = Frameworks;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		AB94261017AE51AB0053D2F6 /* Other Frameworks */ = {
@@ -158,24 +159,18 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		AB94261417AE51AB0053D2F6 /* OCFWeb */ = {
+		AB94261517AE51AB0053D2F6 /* OCFWeb Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AB94266B17AE557D0053D2F6 /* Public API */,
-				AB94266C17AE559C0053D2F6 /* Implementation */,
-				AB94261517AE51AB0053D2F6 /* Supporting Files */,
-			);
-			path = OCFWeb;
-			sourceTree = "<group>";
-		};
-		AB94261517AE51AB0053D2F6 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
+				AB94260D17AE51AB0053D2F6 /* Frameworks */,
+				AB94260C17AE51AB0053D2F6 /* Products */,
+				40E7359C8540412BBAFEFB5B /* Pods.xcconfig */,
 				AB94261617AE51AB0053D2F6 /* OCFWeb-Info.plist */,
 				AB94261717AE51AB0053D2F6 /* InfoPlist.strings */,
 				AB94261A17AE51AB0053D2F6 /* OCFWeb-Prefix.pch */,
 			);
-			name = "Supporting Files";
+			name = "OCFWeb Supporting Files";
+			path = OCFWeb;
 			sourceTree = "<group>";
 		};
 		AB94262A17AE51AC0053D2F6 /* OCFWebTests */ = {
@@ -207,7 +202,7 @@
 			name = "OCFWebServer Additions";
 			sourceTree = "<group>";
 		};
-		AB94266B17AE557D0053D2F6 /* Public API */ = {
+		AB94266B17AE557D0053D2F6 /* OCFWeb Public API */ = {
 			isa = PBXGroup;
 			children = (
 				AB94261B17AE51AB0053D2F6 /* OCFWeb.h */,
@@ -215,10 +210,11 @@
 				AB94266E17AE55CA0053D2F6 /* Request */,
 				AB94266F17AE55D10053D2F6 /* Response */,
 			);
-			name = "Public API";
+			name = "OCFWeb Public API";
+			path = OCFWeb;
 			sourceTree = "<group>";
 		};
-		AB94266C17AE559C0053D2F6 /* Implementation */ = {
+		AB94266C17AE559C0053D2F6 /* OCFWeb Implementation */ = {
 			isa = PBXGroup;
 			children = (
 				AB94267517AE56280053D2F6 /* Configuration (Dictionary Additions) */,
@@ -226,7 +222,8 @@
 				AB94267117AE55FD0053D2F6 /* Routing */,
 				AB94266A17AE55680053D2F6 /* OCFWebServer Additions */,
 			);
-			name = Implementation;
+			name = "OCFWeb Implementation";
+			path = OCFWeb;
 			sourceTree = "<group>";
 		};
 		AB94266D17AE55B40053D2F6 /* Web Application */ = {
@@ -471,7 +468,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Pods-resources.sh\"\n\ncp -r \"${BUILT_PRODUCTS_DIR}/usr/local/include/\"** \"${CODESIGNING_FOLDER_PATH}/Headers/\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AB94262117AE51AC0053D2F6 /* ShellScript */ = {
