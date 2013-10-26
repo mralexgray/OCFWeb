@@ -4,26 +4,23 @@
 
 
 @interface OCFAppDelegate ()
-@property  (strong) OCFWebApplication *app;
-@property  (strong, nonatomic)NSMutableArray *persons; // contains NSDictionary instances
+@property  OCFWebApplication *app;
+@property  NSMutableArray *persons; // contains NSDictionary instances
 
 @end
 
 @implementation OCFAppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification {	_app = OCFWebApplication.new;
-
-   self.persons = [NSS.properNames nmap:^id(id obj, NSUI idx) { 	return @{ @"id" : @(idx).stringValue, 
-																						@"firstName" : obj, @"lastName" : NSS.randomBadWord }.mutableCopy; }].mutableCopy;
-//	ACEBrowserView *__weak bb = _bView;
-//	_app.newRenderedBlock = ^(OCFWebApplication*app, NSString*str){
-//		bb.aceView.string = str.copy;
-//	};
-
-	_app[@"GET"][@"/persons"]  = ^(OCFRequest *request) {
-		request.respondWith([OCFMustache newMustacheWithName:  @"Persons" 
-																	 object:@{@"persons" : _persons}]); };
-
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+	
+	_app = OCFWebApplication.new;
+	
+	self.persons = [NSString.properNames nmap:^id(id obj, NSUI idx) { 	
+		return @{ @"id" : @(idx).stringValue, @"firstName" : obj, @"lastName" : NSS.randomBadWord }.mutableCopy; }].mutableCopy;
+	
+	self.app[@"GET"][@"/persons"]  = ^(OCFRequest *request) {
+		request.respondWith([OCFMustache newMustacheWithName:@"Persons" object:@{@"persons" : self.persons}]);
+	};
 	_app[@"GET"][@"/persons/:id"]  = ^(OCFRequest *request) {
 		NSString *personID = request.parameters[@"id"];
 		for(NSDictionary *person in self.persons) { // Find the person
@@ -33,11 +30,12 @@
 		request.respondWith(@"Error: No Person found");
 	};
 	_app[@"POST"][@"/persons"]  = ^(OCFRequest *request) {
-        NSMutableDictionary *person = [NSMutableDictionary dictionaryWithDictionary:request.parameters];
-        person[@"id"] = [@(self.persons.count + 1) stringValue];
-        [self.persons addObject:person];
+		NSMutableDictionary *person = [NSMutableDictionary dictionaryWithDictionary:request.parameters];
+		person[@"id"] = [@(self.persons.count + 1) stringValue];
+		[self.persons addObject:person];
+		request.respondWith([request redirectedTo:@"/persons"]);
 	};
-	_app[@"PUT"][@"/persons/:id"]  = ^(OCFRequest *request) {
+	self.app[@"PUT"][@"/persons/:id"]  = ^(OCFRequest *request) {
 		NSString *personID = request.parameters[@"id"];
 		for(NSMutableDictionary *person in self.persons) {
 			if([person[@"id"] isEqualToString:personID]){ // person updated
@@ -48,9 +46,13 @@
 		request.respondWith(@"Error: No Person found");
 	};
 
-	[_app run];
-	
-	[_bView.webView setMainFrameURL:[NSString stringWithFormat:@"http://127.0.0.1:%lu/persons", self.app.port]];
+	[self.app run];
+
+	__block ACEBrowserView * bb = _bView;
+	_app.newRenderedBlock = ^(OCFWebApplication*app, NSString*str){
+		NSLog(@"%@", str); if (str) bb.aceView.stringValue = @"I thibnk i saw a puddy cat";
+	};
+	_bView.webURLString = [NSString stringWithFormat:@"%@/persons", self.app.address];
 }
 
 

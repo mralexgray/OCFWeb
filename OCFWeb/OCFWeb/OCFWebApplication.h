@@ -4,15 +4,25 @@
 
 #import <Foundation/Foundation.h>
 
-@class OCFRequest, GRMustacheTemplate; @protocol OCFWebApplicationDelegate; typedef void(^OCFWebApplicationRequestHandler)(OCFRequest *request); 
+@class OCFWebServer, OCFRouter, OCFRequest, GRMustacheTemplate, GRMustacheTemplateRepository;
+@protocol OCFWebApplicationDelegate; typedef void(^OCFWebApplicationRequestHandler)(OCFRequest *request);
 
 @interface OCFWebApplication : NSObject
 
 #pragma mark - Properties
 
-@property (nonatomic,weak) id<OCFWebApplicationDelegate> delegate; 		@property (readonly) NSUInteger port;
+@property (nonatomic,weak) id<OCFWebApplicationDelegate> delegate;
 @property (copy) void(^newTemplateBlock)(OCFWebApplication*,GRMustacheTemplate*);
 @property (copy) void(^newRenderedBlock)(OCFWebApplication*,NSString*);
+
+@property (nonatomic)			                    BOOL   running;
+@property (nonatomic)                   NSUInteger   port;
+@property (readonly)                      NSString * address;
+@property (nonatomic) 	   			      OCFWebServer * server;
+@property (nonatomic) 						       OCFRouter * router;
+@property (nonatomic,copy) 			      NSDictionary * configuration;
+@property (nonatomic) GRMustacheTemplateRepository * templateRepository;
+
 #pragma mark - Adding Handlers
 
 - (void) handle:(NSString*)mthdPtrn requestsMatching:(NSString*)pthPtrn withBlock:(OCFWebApplicationRequestHandler)reqHndlr;

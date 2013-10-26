@@ -14,5 +14,5 @@
 @interface OCFAppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
-@property  (nonatomic, strong) IBOutlet ACEBrowserView *bView;
+@property (strong) IBOutlet ACEBrowserView *bView;
 @end

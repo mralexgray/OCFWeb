@@ -20,7 +20,13 @@
 }
 
 #pragma mark - Creating
-- (instancetype)init { return self = [super init] ? _routesByMethodExpression = NSOrderedSet.orderedSet, self : nil; }
+- (instancetype)init {
+    self = [super init];
+    if(self) {
+        self.routesByMethodExpression = [NSOrderedSet orderedSet];
+    }
+    return self;
+}
 
 #pragma mark - Properties
 - (void)setRoutesByMethodExpression:(NSOrderedSet *)routesByMethodExpression { 
@@ -43,11 +49,13 @@
         if(![routesPair.methodRegularExpression isEqual:methodExpression]) continue;
         routesPairToUse = routesPair; break;
     }
-    if(routesPairToUse == nil) {    // No routes pair found: create one
-        routesPairToUse = [OCFMethodRoutesPair.alloc initWithMethodRegularExpression:methodExpression];
+    if(routesPairToUse == nil) {
+        // No routes pair found: create one
+        routesPairToUse = [[OCFMethodRoutesPair alloc] initWithMethodRegularExpression:methodExpression];
         [_routesByMethodExpression addObject:routesPairToUse];
     }
-    OCFRoute *route = [OCFRoute.alloc initWithPattern:pathPattern requestHandler:requestHandler];
+    
+    OCFRoute *route = [[OCFRoute alloc] initWithPattern:pathPattern requestHandler:requestHandler];
     [routesPairToUse addRoute:route];
     return YES;
 }
@@ -77,7 +85,9 @@
         return NSLog(@"[Router] Failed to add handler because method pattern is malformed: %@", error), nil;
     OCFMethodRoutesPair *routesPairToUse = nil;
     for(OCFMethodRoutesPair *routesPair in _routesByMethodExpression) {
-        if(![routesPair.methodRegularExpression isEqual:methodExpression]) continue;
+        if(![routesPair.methodRegularExpression isEqual:methodExpression]) {
+            continue;
+        }
         routesPairToUse = routesPair;
         break;
     }
