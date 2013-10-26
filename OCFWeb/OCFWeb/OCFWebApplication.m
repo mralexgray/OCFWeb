@@ -25,6 +25,12 @@
 #import <OCFWebServer/OCFWebServerResponse.h>
 #import <OCFWebServer/OCFWebServerRequest.h>
 
+@interface 							   OCFWebApplication( )
+@property (nonatomic) 	   			  OCFWebServer * server;
+@property (nonatomic) 						  OCFRouter * router;
+@property (nonatomic,copy) 			  NSDictionary * configuration;
+@property (nonatomic) GRMustacheTemplateRepository * templateRepository;		@end
+
 @implementation OCFWebApplication
 
 #pragma mark - Creating an Application
@@ -60,7 +66,7 @@
 	return [self.router methodRoutesPairForRequestWithMethodPattern:(NSString*)key];
 }
 #pragma mark - Controlling the Application
-
+- (void)run { [self runOnPort:0]; }
 
 - (void)_handleResponse:(id)response withOriginalRequest:(OCFWebServerRequest *)originalRequest { __typeof__(self) __weak wSelf = self;
 
@@ -96,44 +102,41 @@
 	[originalRequest respondWith:nil]; // FIXME: nil is not a good response
 }
 
-- (NSString*) address {  return  [NSString stringWithFormat:@"http://127.0.0.1:%lu", self.port]; }
+- (void)runOnPort:(NSUInteger)port {
 
-- (void)run { self.running = YES; }
-
-- (void)runOnPort:(NSUInteger)port { self.port = port;  self.running = YES; }
-
-- (void) setRunning:(BOOL)running { if (_server.isRunning ==  running) return;
-
-	_running = running ? [self.server startWithPort:self.port bonjourName:nil] : ^{ [_server stop];  return NO; }();
-
-}
-- (void)stop { NSAssert(_server != nil, @"Called -stop with no running server."); self.running = NO; }
-
-- (OCFWebServer*) server { if (_server) return _server;
-
-	_server = [OCFWebServer new]; 	__typeof__(self) __weak wSelf = self;
-
-	[_server addHandlerWithMatchBlock:^OCFWebServerRequest*(NSString*reqMthd,NSURL*reqURL,NSDictionary*reqHdrs,NSString*urlPath, NSDictionary *urlQuery) {
-
-		Class requestClass = Nil; 	NSString *contentType = reqHdrs[@"Content-Type"];  NSString *contentLengthAsString = reqHdrs[@"Content-Length"];
-
-		if(contentType != nil)
-			requestClass = [contentType isEqualToString:OCFWebServerURLEncodedFormRequest.mimeType] ? OCFWebServerURLEncodedFormRequest.class
-									 : [contentType hasPrefix:OCFWebServerMultiPartFormRequest.mimeType]        ? OCFWebServerMultiPartFormRequest.class
-									 : contentLengthAsString && contentLengthAsString.integerValue							? OCFWebServerDataRequest.class
-									 : OCFWebServerRequest.class;
-
-		return (OCFWebServerRequest*) [requestClass.alloc initWithMethod:reqMthd   URL:reqURL headers:reqHdrs path:urlPath query:urlQuery]; // request
-
-	} processBlock:^void(OCFWebServerRequest *request) {		NSString *requestMethod = request.method;
-
+	self.server = [OCFWebServer new]; 	__typeof__(self) __weak wSelf = self;
+	
+	[self.server addHandlerWithMatchBlock:^OCFWebServerRequest *(NSString *requestMethod, NSURL *requestURL, NSDictionary *requestHeaders, NSString *urlPath, NSDictionary *urlQuery) {
+		Class requestClass = Nil;
+		NSString *contentType = requestHeaders[@"Content-Type"];
+		
+		if(contentType != nil)			
+				requestClass = [contentType isEqualToString:OCFWebServerURLEncodedFormRequest.mimeType]
+								 ? [OCFWebServerURLEncodedFormRequest class] 
+		 						 : [contentType hasPrefix:[OCFWebServerMultiPartFormRequest mimeType]]
+								 ? [OCFWebServerMultiPartFormRequest class] : requestClass;
+		
+		if(requestClass == nil) {
+			requestClass 							= OCFWebServerRequest.class;
+			NSString *contentLengthAsString 	= requestHeaders[@"Content-Length"];
+			NSInteger contentLength 			= contentLengthAsString.integerValue;
+			if(contentLengthAsString != nil && contentLength > 0)  requestClass = [OCFWebServerDataRequest class];
+		}
+		OCFWebServerRequest *result = [requestClass.alloc initWithMethod:requestMethod   URL:requestURL 
+																					headers:requestHeaders path:urlPath query:urlQuery];
+		return result;
+	} processBlock:^void(OCFWebServerRequest *request) {
+		NSString *requestMethod = request.method;
+		
 		// Method Overriding
 		NSDictionary *requestParameters = [request additionalParameters_ocf];
-		if(requestParameters[@"_method"] != nil) requestMethod = requestParameters[@"_method"];
-
+		if(requestParameters[@"_method"] != nil) {
+			requestMethod = requestParameters[@"_method"];
+		}
+		
 		// Dispatch the request
 		OCFRoute *route = [wSelf.router routeForRequestWithMethod:requestMethod requestPath:request.path];
-
+		
 		if(route == nil) {
 			NSLog(@"[WebApplication] No route found for %@ %@.", request.method, request.path);
 			OCFResponse *response = nil;
@@ -153,15 +156,17 @@
 			}
 			return;
 		}
-
+		
 		NSDictionary *parameters 	= [wSelf parametersFromRequest:request withRoute:route];
 		OCFRequest *webRequest 		= [OCFRequest.alloc initWithWebServerRequest:request parameters:parameters];
 		[webRequest setRespondWith:^(id response) { [wSelf _handleResponse:response withOriginalRequest:request]; }];
 		route.requestHandler(webRequest);
 	}];
-	return  _server;
-
+	[self.server startWithPort:port bonjourName:nil];
 }
+
+- (void)stop { NSAssert(self.server != nil, @"Called -stop with no running server."); 	[self.server stop]; }
+
 #pragma mark - Properties
 
 - (NSUInteger)port {  return _server ? _server.port : 0; }
@@ -182,8 +187,10 @@
 
 #pragma mark - Private Helper Methods
 - (NSDictionary *)parametersFromRequest:(OCFWebServerRequest *)request withRoute:(OCFRoute *)route {
-
-	NSDictionary *patternParameters = [route parametersWithRequestPath:request.URL.path];	NSMutableDictionary *result; //, *requestParameters;
+	NSDictionary *patternParameters = [route parametersWithRequestPath:request.URL.path];
+	
+	NSMutableDictionary *result; //, *requestParameters;
+	 
 	[result = NSMutableDictionary.new addEntriesFromDictionary:patternParameters];
 	[result addEntriesFromDictionary: request.additionalParameters_ocf]; // requestParameters
 	

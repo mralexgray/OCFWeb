@@ -14,36 +14,36 @@
 - (void)testParameters {
     self.application[@"GET"][@"/houses/:house/persons/:person"] = ^(OCFRequest *request) {
         NSDictionary *parameters = request.parameters;
-        XCTAssertNotNil(parameters, @"Parameters cannot be nil here.");
+        STAssertNotNil(parameters, @"Parameters cannot be nil here.");
         NSString *house = parameters[@"house"];
-        XCTAssertNotNil(house, @"Invalid Parameters.");
-        XCTAssertTrue([@"Kienle" isEqualToString:house], @"Invalid Parameter value.");
+        STAssertNotNil(house, @"Invalid Parameters.");
+        STAssertTrue([@"Kienle" isEqualToString:house], @"Invalid Parameter value.");
         
         NSString *person = parameters[@"person"];
-        XCTAssertNotNil(person, @"Invalid Parameters.");
-        XCTAssertTrue([@"Christian" isEqualToString:person], @"Invalid Parameter value.");
+        STAssertNotNil(person, @"Invalid Parameters.");
+        STAssertTrue([@"Christian" isEqualToString:person], @"Invalid Parameter value.");
         
         NSString *urlParameterA = parameters[@"urlParameterA"];
-        XCTAssertNotNil(urlParameterA, @"Invalid Parameters.");
-        XCTAssertTrue([@"urlValueB" isEqualToString:urlParameterA], @"Invalid Parameter value.");
+        STAssertNotNil(urlParameterA, @"Invalid Parameters.");
+        STAssertTrue([@"urlValueB" isEqualToString:urlParameterA], @"Invalid Parameter value.");
         
         request.respondWith(@"OK");
     };
     
     self.application[@"GET"][@"/houses/:house/persons/:person"] = ^(OCFRequest *request) {
         NSDictionary *parameters = request.parameters;
-        XCTAssertNotNil(parameters, @"Parameters cannot be nil here.");
+        STAssertNotNil(parameters, @"Parameters cannot be nil here.");
         NSString *house = parameters[@"house"];
-        XCTAssertNotNil(house, @"Invalid Parameters.");
-        XCTAssertTrue([@"Kienle" isEqualToString:house], @"Invalid Parameter value.");
+        STAssertNotNil(house, @"Invalid Parameters.");
+        STAssertTrue([@"Kienle" isEqualToString:house], @"Invalid Parameter value.");
         
         NSString *person = parameters[@"person"];
-        XCTAssertNotNil(person, @"Invalid Parameters.");
-        XCTAssertTrue([@"Christian" isEqualToString:person], @"Invalid Parameter value.");
+        STAssertNotNil(person, @"Invalid Parameters.");
+        STAssertTrue([@"Christian" isEqualToString:person], @"Invalid Parameter value.");
         
         NSString *urlParameterA = parameters[@"urlParameterA"];
-        XCTAssertNotNil(urlParameterA, @"Invalid Parameters.");
-        XCTAssertTrue([@"urlValueB" isEqualToString:urlParameterA], @"Invalid Parameter value.");
+        STAssertNotNil(urlParameterA, @"Invalid Parameters.");
+        STAssertTrue([@"urlValueB" isEqualToString:urlParameterA], @"Invalid Parameter value.");
         
         request.respondWith(@"OK");
     };
@@ -63,9 +63,9 @@
     NSError *error = nil;
     NSHTTPURLResponse *response = nil;
     NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    XCTAssertNotNil(responseBody, @"Error: %@", error);
+    STAssertNotNil(responseBody, @"Error: %@", error);
     NSString *responseString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
-    XCTAssertTrue([responseString isEqualToString:@"OK"], @"FAIL. DOnt want OK. Got \"%@\"", responseString);
+    STAssertTrue([responseString isEqualToString:@"OK"], @"FAIL");
 }
 
 - (void)testNoMatchingRoute {
@@ -107,8 +107,8 @@
     NSError *error = nil;
     NSHTTPURLResponse *response = nil;
     NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    XCTAssertNotNil(responseBody, @"Error: %@", error);
-    XCTAssertTrue(response.statusCode == 404, @"Wrong status code. Wanted 404, got %lu", response.statusCode);
+    STAssertNotNil(responseBody, @"Error: %@", error);
+    STAssertTrue(response.statusCode == 404, @"Wrong status code");
 }
 
 - (void)testRoutesWithMethodExpression {
@@ -118,9 +118,9 @@
     [self.application run];
     
     NSString *PUTHouses = [self responseStringForPath:@"/houses" method:@"PUT" returningResponse:NULL];
-    XCTAssertTrue([PUTHouses isEqualToString:@"houses: PUT"], @"Fail");
+    STAssertTrue([PUTHouses isEqualToString:@"houses: PUT"], @"Fail");
     NSString *GETHouses = [self responseStringForPath:@"/houses" method:@"GET" returningResponse:NULL];
-    XCTAssertTrue([GETHouses isEqualToString:@"houses: GET"], @"Fail");
+    STAssertTrue([GETHouses isEqualToString:@"houses: GET"], @"Fail");
     
 }
 
@@ -134,9 +134,9 @@
     NSError *error = nil;
     NSHTTPURLResponse *response = nil;
     NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    XCTAssertNotNil(responseBody, @"Error: %@", error);
+    STAssertNotNil(responseBody, @"Error: %@", error);
     NSString *responseString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
-    XCTAssertTrue([responseString isEqualToString:@"OK"], @"FAIL");
+    STAssertTrue([responseString isEqualToString:@"OK"], @"FAIL");
 }
 
 - (void)testTemplateEngine {
@@ -156,7 +156,7 @@
     NSError *error = nil;
     NSHTTPURLResponse *response = nil;
     NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    XCTAssertNotNil(responseBody, @"Error: %@", error);
+    STAssertNotNil(responseBody, @"Error: %@", error);
     NSString *responseString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
     
     // Build the string that we expect to see
@@ -165,7 +165,7 @@
         [expectedResponseString appendFormat:@"fn: %@ ln: %@", person[@"firstName"], person[@"lastName"]];
     }
     
-    XCTAssertTrue([responseString isEqualToString:expectedResponseString], @"FAIL");
+    STAssertTrue([responseString isEqualToString:expectedResponseString], @"FAIL");
 }
 
 #pragma mark - Properties

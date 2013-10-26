@@ -3,8 +3,8 @@
 // https://github.com/Objective-Cloud/OCFWeb
 
 #import <Foundation/Foundation.h>
-#import <OCFWeb/OCFWebApplication.h>
-#import <OCFWeb/OCFRequest.h>
-#import <OCFWeb/OCFResponse.h>
-#import <OCFWeb/OCFMustache.h>
-#import <OCFWeb/GRMustache.h>
+#import "OCFWebApplication.h"
+#import "OCFRequest.h"
+#import "OCFResponse.h"
+#import "OCFMustache.h"
+#import "GRMustache.h"

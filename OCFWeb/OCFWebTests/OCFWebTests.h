@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Objective-Cloud.com. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
+#import <SenTestingKit/SenTestingKit.h>
 
-@interface OCFWebTests : XCTestCase
+@interface OCFWebTests : SenTestCase
 
 @end
