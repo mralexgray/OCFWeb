@@ -2,88 +2,60 @@
 // Copyright (c) 2013 Objective-Cloud (chris@objective-cloud.com)
 // https://github.com/Objective-Cloud/OCFWeb
 
-#import <OCFWebServer/OCFWebServerRequest.h>
+#import <OCFWeb/OCFWebServerRequest+OCFWebAdditions.h>
+
 
 @implementation OCFWebServerRequest (OCFWebAdditions)
-
 #pragma mark - Additional Parameters
-- (NSDictionary *)additionalParameters_ocf {
-    return @{};
-}
-
+- (NSDictionary *)additionalParameters_ocf { return @{}; }
 #pragma mark - Convenience
-- (NSData *)data_ocf {
-    return nil;
-}
-
+- (NSData *)data_ocf { return nil; }
 @end
 
-
 @implementation OCFWebServerDataRequest (OCFAdditions)
-
 #pragma mark - Convenience
-- (NSData *)data_ocf {
-    return self.data;
-}
-
+- (NSData *)data_ocf { return self.data; }
 @end
 
 @implementation OCFWebServerFileRequest (OCFAdditions)
-
 #pragma mark - Convenience
-- (NSData *)data_ocf {
-    if(self.filePath == nil) {
-        return nil;
-    }
-    NSError *error = nil;
+- (NSData *)data_ocf { if(!self.filePath) return nil; NSError *error = nil;
+
     NSURL *fileURL = [NSURL fileURLWithPath:self.filePath];
     NSData *result = [NSData dataWithContentsOfURL:fileURL options:NSDataReadingMappedIfSafe error:&error];
-    if(result == nil) {
-        NSLog(@"Failed to generated data from file path %@: %@", self.filePath, error);
-        return nil;
-    }
-    return result;
+    return result ?: (id)(NSLog(@"Failed to generated data from file path %@: %@", self.filePath, error), nil);
 }
-
 @end
 
 @implementation OCFWebServerMultiPartFormRequest (OCFAdditions)
-
 #pragma mark - Convenience
-- (NSData *)data_ocf {
-    return self.data;
-}
+- (NSData *)data_ocf {    return self.data; }
 
 #pragma mark - Additional Parameters
-- (NSDictionary *)additionalParameters_ocf {
-    NSMutableDictionary *result = [NSMutableDictionary new];
+- (NSDictionary *)additionalParameters_ocf {  NSMutableDictionary *result = NSMutableDictionary.new;
+
     [self.arguments enumerateKeysAndObjectsUsingBlock:^(NSString *name, OCFWebServerMultiPartArgument *argument, BOOL *stop) {
-        if(argument.string != nil) {
-            result[name] = argument.string;
-        }
-        // FIXME: Handle argument.data and self.files as well.
+        if(argument.string) result[name] = argument.string;   // FIXME: Handle argument.data and self.files as well.
     }];
     return result;
 }
-
 @end
 
 #import <objc/runtime.h>
+#import <objc/message.h>
 #import "OCFWebServerRequest+OCFWebAdditions.h"
 
+//		[self.target performSelector:self.action withObject:self];
 
 @implementation NSControl (Block)
 
-- (void) trampoline {
-	if (self.actionBlock && self.target == self) self.actionBlock(self);
-	else if (self.action && self.target) [self.target performSelector:self.action withObject:self];
+- (void) trampoline { self.actionBlock		&& self.target == self	? self.actionBlock(self) :
+											self.action != NULL	&& self.target					? (void)objc_msgSend(self.target, self.action, self) : nil;
 }
 - (NSControlActionBlock) actionBlock { return  (NSControlActionBlock)objc_getAssociatedObject(self, _cmd); }
 
-- (void)setActionBlock:(NSControlActionBlock)ab {  
+- (void)setActionBlock:(NSControlActionBlock)ab {  if (ab) { self.target = self; 	self.action = @selector(trampoline); }
 	objc_setAssociatedObject(self, @selector(actionBlock),ab,OBJC_ASSOCIATION_COPY);
-	self.target = self;
-	self.action = @selector(trampoline);
 }
 @end
 
@@ -102,7 +74,7 @@ id CallBlockWithArguments(id aBlock, NSArray *aArguments)	{
 
     NSUInteger c;
     unsigned int i = 0;
-    id __unsafe_unretained * stackBuf[16];
+    __unsafe_unretained id stackBuf[16];
     NSFastEnumerationState enumState = {0};
     while((c = [aArguments countByEnumeratingWithState:&enumState
                                                objects:stackBuf

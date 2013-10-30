@@ -11,7 +11,7 @@
 + (NSString*)templateForName:			(NSString*)name;
 
 #pragma mark - Properties
-@property (nonatomic, copy, readonly) NSString *name;
-@property (nonatomic, strong, readonly) id object;
+@property (copy, readonly) NSString *name;
+@property (readonly) id object;
 
 @end

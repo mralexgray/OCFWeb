@@ -64,7 +64,7 @@
     NSHTTPURLResponse *response = nil;
     NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     STAssertNotNil(responseBody, @"Error: %@", error);
-    NSString *responseString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
+    NSString *responseString = [[NSString.alloc initWithData:responseBody encoding:NSUTF8StringEncoding];
     STAssertTrue([responseString isEqualToString:@"OK"], @"FAIL");
 }
 
@@ -135,7 +135,7 @@
     NSHTTPURLResponse *response = nil;
     NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     STAssertNotNil(responseBody, @"Error: %@", error);
-    NSString *responseString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
+    NSString *responseString = [[NSString.alloc initWithData:responseBody encoding:NSUTF8StringEncoding];
     STAssertTrue([responseString isEqualToString:@"OK"], @"FAIL");
 }
 
@@ -157,7 +157,7 @@
     NSHTTPURLResponse *response = nil;
     NSData *responseBody = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     STAssertNotNil(responseBody, @"Error: %@", error);
-    NSString *responseString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
+    NSString *responseString = [[NSString.alloc initWithData:responseBody encoding:NSUTF8StringEncoding];
     
     // Build the string that we expect to see
     NSMutableString *expectedResponseString = [NSMutableString new];
@@ -193,7 +193,7 @@
     if(responseBody == nil) {
         return nil;
     }
-    NSString *responseString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
+    NSString *responseString = [[NSString.alloc initWithData:responseBody encoding:NSUTF8StringEncoding];
     return responseString;
 }
 
@@ -206,14 +206,14 @@
     if(responseBody == nil) {
         return nil;
     }
-    NSString *responseString = [[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding];
+    NSString *responseString = [[NSString.alloc initWithData:responseBody encoding:NSUTF8StringEncoding];
     return responseString;
 }
 
 #pragma mark - Setup + Tear Down
 - (void)setUp {
     [super setUp];
-    self.application = [[OCFWebApplication alloc] initWithBundle:[NSBundle bundleForClass:[self class]]];
+    self.application = [[OCFWebApplication.alloc initWithBundle:[NSBundle bundleForClass:[self class]]];
 }
 
 - (void)tearDown{

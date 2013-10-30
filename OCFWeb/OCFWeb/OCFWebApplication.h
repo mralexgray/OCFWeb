@@ -4,18 +4,32 @@
 
 #import <Foundation/Foundation.h>
 
-@class OCFRequest, GRMustacheTemplate; @protocol OCFWebApplicationDelegate; typedef void(^OCFWebApplicationRequestHandler)(OCFRequest *request); 
+@class OCFRequest, GRMustacheTemplate; @protocol OCFWebApplicationDelegate;
+
+typedef void(^OCFWebApplicationRequestHandler)(OCFRequest *request);
 
 @interface OCFWebApplication : NSObject
 
 #pragma mark - Properties
 
-@property (nonatomic,weak) id<OCFWebApplicationDelegate> delegate; 		@property (readonly) NSUInteger port;
+@property (nonatomic,weak) id<OCFWebApplicationDelegate> delegate;
+@property (readonly) NSUInteger port;
+
 @property (copy) void(^newTemplateBlock)(OCFWebApplication*,GRMustacheTemplate*);
 @property (copy) void(^newRenderedBlock)(OCFWebApplication*,NSString*);
 #pragma mark - Adding Handlers
 
-- (void) handle:(NSString*)mthdPtrn requestsMatching:(NSString*)pthPtrn withBlock:(OCFWebApplicationRequestHandler)reqHndlr;
+- (void)		handle:(NSString*)mthdPtrn requestsMatching:(NSString*)pthPtrn withBlock:(OCFWebApplicationRequestHandler)reqHndlr;
+
+@end
+
+@class  OCFRouter,  OCFWebServer, GRMustacheTemplateRepository;
+@interface									 OCFWebApplication( )
+@property (nonatomic) 	   			  OCFWebServer * server;
+@property (nonatomic) 						   OCFRouter * router;
+@property (nonatomic,copy) 			  NSDictionary * configuration;
+@property (nonatomic) GRMustacheTemplateRepository * templateRepository;
+
 
 #pragma mark - Controlling the Application
 

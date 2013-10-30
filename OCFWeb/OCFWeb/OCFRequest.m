@@ -12,35 +12,26 @@
 @implementation OCFRequest
 
 #pragma mark - Creating a Request
-- (instancetype)init {
-    @throw [NSException exceptionWithName:@"OCFInvalidInitializer" reason:nil userInfo:nil];
-}
+
+- (instancetype)init {  @throw [NSException exceptionWithName:@"OCFInvalidInitializer" reason:nil userInfo:nil]; }
 
 #pragma mark - Responding
-- (void)respondWith:(id)response {
-    self.respondWith ? self.respondWith(response) : nil;
-}
 
-- (OCFResponse *)redirectedTo:(NSString *)path {
-    NSString *resultingPath = (path != nil ? path : @"/");
-    NSString *location = [[NSURL URLWithString:resultingPath relativeToURL:self.URL] absoluteString];
-    return [[OCFResponse alloc] initWithStatus:303
-                                       headers:@{ @"Location" : location,
-                                                  @"Content-Length" : @"0" }
-                                          body:nil];
+- (void)respondWith:(id)response { self.respondWith ? self.respondWith(response) : nil; }
+
+- (OCFResponse *)redirectedTo:(NSString *)path {		//    NSString *resultingPath = ;
+
+    NSString *location = [[NSURL URLWithString:path ?: @"/" relativeToURL:_URL] absoluteString];
+    return [OCFResponse.alloc initWithStatus:303 headers:@{ @"Location" : location, @"Content-Length" : @"0" } body:nil];
 }
 
 - (void)respondBadRequestStatusWithBody:(NSData *)body {
-  [self respondWith:@{@"status" : @400,
-                      @"body" : body,
-                      @"headers": @{@"Content-Type" : @"application/json"}}];
+  [self respondWith:@{@"status" : @400, @"body" : body, @"headers": @{@"Content-Type" : @"application/json"}}];
 }
-
-
 
 #pragma mark - NSObject
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p> %@ %@\nHeaders: %@\nQuery: %@", NSStringFromClass([self class]), self, self.method, self.path, self.headers, self.query];
+    return [NSString stringWithFormat:@"<%@: %p> %@ %@\nHeaders: %@\nQuery: %@", NSStringFromClass(self.class), self, _method, _path, _headers, _query];
 }
 
 @end

@@ -7,10 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B45BE87182119CC005DBCBD /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BF6DB9C181C5BC3007B9A63 /* ACEView.framework */; };
 		7B644CE2181590030036D205 /* OCFWeb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B644CDD18158FFA0036D205 /* OCFWeb.framework */; };
-		7B69961E1817359D00CAD9E2 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B644CEC181647BF0036D205 /* ACEView.framework */; };
 		7B699620181743FE00CAD9E2 /* AtoZ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B644CE3181590340036D205 /* AtoZ.framework */; };
-		7B699621181745BD00CAD9E2 /* ACEView.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7B644CEC181647BF0036D205 /* ACEView.framework */; };
 		7B699622181745BD00CAD9E2 /* OCFWeb.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7B644CDD18158FFA0036D205 /* OCFWeb.framework */; };
 		AB9425E517AE512C0053D2F6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9425E417AE512C0053D2F6 /* Cocoa.framework */; };
 		AB9425F117AE512C0053D2F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9425F017AE512C0053D2F6 /* main.m */; };
@@ -21,6 +20,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7B45BE7F182119C5005DBCBD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C8A728B15EA0769007E5EB8;
+			remoteInfo = ACEView;
+		};
 		7B644CDC18158FFA0036D205 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7B644CD718158FFA0036D205 /* OCFWeb.xcodeproj */;
@@ -42,33 +48,33 @@
 			remoteGlobalIDString = AB94260A17AE51AB0053D2F6;
 			remoteInfo = OCFWeb;
 		};
-		7B644CEB181647BF0036D205 /* PBXContainerItemProxy */ = {
+		7BF6DB9B181C5BC3007B9A63 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 7C8A728C15EA0769007E5EB8;
 			remoteInfo = ACEView;
 		};
-		7B644CED181647BF0036D205 /* PBXContainerItemProxy */ = {
+		7BF6DB9D181C5BC3007B9A63 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 7C8A72E015EA0F0E007E5EB8;
 			remoteInfo = ACEVIewExample;
 		};
-		7B644CEF181647BF0036D205 /* PBXContainerItemProxy */ = {
+		7BF6DB9F181C5BC3007B9A63 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 36F169E216B9346C00E8965C;
 			remoteInfo = ACEViewTests;
 		};
-		7B644CF1181647C70036D205 /* PBXContainerItemProxy */ = {
+		7BF6DBA1181C5BC3007B9A63 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7C8A728B15EA0769007E5EB8;
-			remoteInfo = ACEView;
+			proxyType = 2;
+			remoteGlobalIDString = 7B69966F1819605C00CAD9E2;
+			remoteInfo = UpdateAce;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -79,7 +85,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7B699621181745BD00CAD9E2 /* ACEView.framework in Copy Frameworks */,
 				7B699622181745BD00CAD9E2 /* OCFWeb.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -90,7 +95,7 @@
 /* Begin PBXFileReference section */
 		7B644CD718158FFA0036D205 /* OCFWeb.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCFWeb.xcodeproj; path = ../OCFWeb/OCFWeb.xcodeproj; sourceTree = "<group>"; };
 		7B644CE3181590340036D205 /* AtoZ.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AtoZ.framework; path = System/Library/Frameworks/AtoZ.framework; sourceTree = SDKROOT; };
-		7B644CE5181647BE0036D205 /* ACEView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ACEView.xcodeproj; path = ../../ACEView/ACEView.xcodeproj; sourceTree = "<group>"; };
+		7B644CE5181647BE0036D205 /* ACEView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ACEView.xcodeproj; path = ../ACEView/ACEView.xcodeproj; sourceTree = "<group>"; };
 		AB9425E117AE512C0053D2F6 /* OCFWeb Mac Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OCFWeb Mac Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB9425E417AE512C0053D2F6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		AB9425E717AE512C0053D2F6 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -111,8 +116,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B45BE87182119CC005DBCBD /* ACEView.framework in Frameworks */,
 				7B699620181743FE00CAD9E2 /* AtoZ.framework in Frameworks */,
-				7B69961E1817359D00CAD9E2 /* ACEView.framework in Frameworks */,
 				7B644CE2181590030036D205 /* OCFWeb.framework in Frameworks */,
 				AB9425E517AE512C0053D2F6 /* Cocoa.framework in Frameworks */,
 			);
@@ -130,12 +135,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7B644CE6181647BE0036D205 /* Products */ = {
+		7BF6DB94181C5BC2007B9A63 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7B644CEC181647BF0036D205 /* ACEView.framework */,
-				7B644CEE181647BF0036D205 /* ACE View Example.app */,
-				7B644CF0181647BF0036D205 /* ACEViewTests.octest */,
+				7BF6DB9C181C5BC3007B9A63 /* ACEView.framework */,
+				7BF6DB9E181C5BC3007B9A63 /* ACEVIewExample.app */,
+				7BF6DBA0181C5BC3007B9A63 /* ACEViewTests.octest */,
+				7BF6DBA2181C5BC3007B9A63 /* UpdateAce */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -217,7 +223,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				7B644CF2181647C70036D205 /* PBXTargetDependency */,
+				7B45BE80182119C5005DBCBD /* PBXTargetDependency */,
 				7B644CE118158FFD0036D205 /* PBXTargetDependency */,
 			);
 			name = "OCFWeb Mac Example";
@@ -247,7 +253,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 7B644CE6181647BE0036D205 /* Products */;
+					ProductGroup = 7BF6DB94181C5BC2007B9A63 /* Products */;
 					ProjectRef = 7B644CE5181647BE0036D205 /* ACEView.xcodeproj */;
 				},
 				{
@@ -277,26 +283,32 @@
 			remoteRef = 7B644CDE18158FFA0036D205 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7B644CEC181647BF0036D205 /* ACEView.framework */ = {
+		7BF6DB9C181C5BC3007B9A63 /* ACEView.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = ACEView.framework;
-			remoteRef = 7B644CEB181647BF0036D205 /* PBXContainerItemProxy */;
+			remoteRef = 7BF6DB9B181C5BC3007B9A63 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7B644CEE181647BF0036D205 /* ACE View Example.app */ = {
+		7BF6DB9E181C5BC3007B9A63 /* ACEVIewExample.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			name = "ACE View Example.app";
 			path = ACEVIewExample.app;
-			remoteRef = 7B644CED181647BF0036D205 /* PBXContainerItemProxy */;
+			remoteRef = 7BF6DB9D181C5BC3007B9A63 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7B644CF0181647BF0036D205 /* ACEViewTests.octest */ = {
+		7BF6DBA0181C5BC3007B9A63 /* ACEViewTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ACEViewTests.octest;
-			remoteRef = 7B644CEF181647BF0036D205 /* PBXContainerItemProxy */;
+			remoteRef = 7BF6DB9F181C5BC3007B9A63 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7BF6DBA2181C5BC3007B9A63 /* UpdateAce */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = UpdateAce;
+			remoteRef = 7BF6DBA1181C5BC3007B9A63 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -327,15 +339,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7B45BE80182119C5005DBCBD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ACEView;
+			targetProxy = 7B45BE7F182119C5005DBCBD /* PBXContainerItemProxy */;
+		};
 		7B644CE118158FFD0036D205 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = OCFWeb;
 			targetProxy = 7B644CE018158FFD0036D205 /* PBXContainerItemProxy */;
-		};
-		7B644CF2181647C70036D205 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ACEView;
-			targetProxy = 7B644CF1181647C70036D205 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -68,7 +68,7 @@
     NSParameterAssert(object);
     NSParameterAssert([object_getClass(key) isSubclassOfClass:[NSString class]]); // make sure key is a string
     
-    OCFRoute *route = [[OCFRoute alloc] initWithPattern:(NSString *)key requestHandler:object];
+    OCFRoute *route = [OCFRoute.alloc initWithPattern:(NSString *)key requestHandler:object];
     [self addRoute:route];
 }
 

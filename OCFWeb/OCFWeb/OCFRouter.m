@@ -8,19 +8,32 @@
 
 #import <SOCKit/SOCKit.h>
 
+@interface OrderedSetArrayValueTransformer : NSValueTransformer  @end
+@implementation OrderedSetArrayValueTransformer
+
++ (Class) transformedValueClass						{ return NSArray.class;													}
++  (BOOL) allowsReverseTransformation			{ return YES;																		}
+-    (id) transformedValue:				(id)v		{ return ((NSOrderedSet*)v).array;							}
+-    (id) reverseTransformedValue:(id)v		{ return [NSOrderedSet orderedSetWithArray:v];	}
+@end
+
 @interface OCFRouter ()
 
 #pragma mark - Properties
-@property (nonatomic, copy, readwrite) NSOrderedSet *routesByMethodExpression; // contains OCFMethodRoutesPair
+@property (nonatomic,copy,readwrite) NSOrderedSet *routesByMethodExpression; // contains OCFMethodRoutesPair
 
 @end
 
-@implementation OCFRouter {
-    NSMutableOrderedSet *_routesByMethodExpression;
-}
+@implementation OCFRouter {    NSMutableOrderedSet *_routesByMethodExpression;	}
 
 #pragma mark - Creating
-- (instancetype)init { return self = [super init] ? _routesByMethodExpression = NSOrderedSet.orderedSet, self : nil; }
+
+- (instancetype)init { self = super.init;
+
+	_routesByMethodExpression = NSMutableOrderedSet.orderedSet; return self;
+//	[self bind:@"content" toObject:_routesByMethodExpression withKeyPath:NSValueBinding options:@{NSValueTransformerBindingOption
+//	self : nil;
+}
 
 #pragma mark - Properties
 - (void)setRoutesByMethodExpression:(NSOrderedSet *)routesByMethodExpression { 
@@ -83,7 +96,7 @@
     }
     if(routesPairToUse == nil) {
         // No routes pair found: create one
-        routesPairToUse = [[OCFMethodRoutesPair alloc] initWithMethodRegularExpression:methodExpression];
+        routesPairToUse = [OCFMethodRoutesPair.alloc initWithMethodRegularExpression:methodExpression];
         [_routesByMethodExpression addObject:routesPairToUse];
     }
     return routesPairToUse;

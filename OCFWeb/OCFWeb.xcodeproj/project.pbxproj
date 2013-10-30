@@ -35,7 +35,7 @@
 		AB94266217AE51DB0053D2F6 /* OCFWebApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = AB94264C17AE51DB0053D2F6 /* OCFWebApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB94266317AE51DB0053D2F6 /* OCFWebApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AB94264D17AE51DB0053D2F6 /* OCFWebApplication.m */; };
 		AB94266417AE51DB0053D2F6 /* OCFWebApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AB94264E17AE51DB0053D2F6 /* OCFWebApplicationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AB94266517AE51DB0053D2F6 /* OCFWebServerRequest+OCFWebAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AB94264F17AE51DB0053D2F6 /* OCFWebServerRequest+OCFWebAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		AB94266517AE51DB0053D2F6 /* OCFWebServerRequest+OCFWebAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AB94264F17AE51DB0053D2F6 /* OCFWebServerRequest+OCFWebAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB94266617AE51DB0053D2F6 /* OCFWebServerRequest+OCFWebAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AB94265017AE51DB0053D2F6 /* OCFWebServerRequest+OCFWebAdditions.m */; };
 		AB94266917AE53E70053D2F6 /* OCFWeb.h in Headers */ = {isa = PBXBuildFile; fileRef = AB94261B17AE51AB0053D2F6 /* OCFWeb.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB94267B17AE629C0053D2F6 /* Persons.mustache in Resources */ = {isa = PBXBuildFile; fileRef = AB94267917AE629C0053D2F6 /* Persons.mustache */; };
@@ -620,6 +620,7 @@
 				INFOPLIST_FILE = "OCFWeb/OCFWeb-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -637,6 +638,7 @@
 				INFOPLIST_FILE = "OCFWeb/OCFWeb-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;

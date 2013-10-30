@@ -4,7 +4,6 @@
 
 #import <OCFWebServer/OCFWebServerRequest.h>
 
-
 typedef void(^NSControlActionBlock)(id sender);
 
 @interface NSControl (Block)
@@ -12,7 +11,6 @@ typedef void(^NSControlActionBlock)(id sender);
 - (void)setActionBlock:(NSControlActionBlock)ab;
 
 @end
-
 
 id CallBlockWithArguments(id block, NSArray *aArguments);
 

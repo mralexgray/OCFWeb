@@ -1,12 +1,3 @@
-//+ (void)initialize {    if(self == [SinApplication class]) {
-//#if !defined(NS_BLOCK_ASSERTIONS)
-//        [GRMustache preventNSUndefinedKeyExceptionAttack];  // Debug configuration: keep GRMustache quiet
-//#endif
-//}	}
-
-
-// The MIT License (MIT) Copyright (c) 2013 Objective-Cloud (chris@objective-cloud.com)
-// https://github.com/Objective-Cloud/OCFWeb
 
 #import "OCFWebApplication.h"
 #import "OCFWebApplicationDelegate.h"
@@ -25,11 +16,6 @@
 #import <OCFWebServer/OCFWebServerResponse.h>
 #import <OCFWebServer/OCFWebServerRequest.h>
 
-@interface 							   OCFWebApplication( )
-@property (nonatomic) 	   			  OCFWebServer * server;
-@property (nonatomic) 						  OCFRouter * router;
-@property (nonatomic,copy) 			  NSDictionary * configuration;
-@property (nonatomic) GRMustacheTemplateRepository * templateRepository;		@end
 
 @implementation OCFWebApplication
 
@@ -48,13 +34,20 @@
 
 - (void)_setupDefaultConfiguration {	NSDictionary *staticHeaders = 
 
-	@{ @"X-XSS-Protection" : @"1; mode=block", @"X-Content-Type-Options" : @"nosniff", @"X-Frame-Options" : @"SAMEORIGIN"};
-	self.configuration = @{ @"status" : @200, @"headers" : staticHeaders, @"contentType" : @"text/html;charset=utf-8" };
+	@{				@"X-XSS-Protection" : @"1; mode=block",
+			@"X-Content-Type-Options" : @"nosniff",
+						 @"X-Frame-Options" : @"SAMEORIGIN"};
+
+	self.configuration = @{ @"status" : @200,
+												 @"headers" : staticHeaders,
+										 @"contentType" : @"text/html;charset=utf-8" };
 }
 
 #pragma mark - Adding Handlers
 
-- (void)handle:(NSString *)mthdPtrn requestsMatching:(NSString*)pthPtrn withBlock:(OCFWebApplicationRequestHandler)reqHndlr {
+- (void)		handle:(NSString*)mthdPtrn
+	requestsMatching:(NSString*)pthPtrn
+	       withBlock:(OCFWebApplicationRequestHandler)reqHndlr {
 
 	NSParameterAssert(mthdPtrn); NSParameterAssert(pthPtrn); NSParameterAssert(reqHndlr); self[mthdPtrn][pthPtrn] = reqHndlr;
 }
@@ -74,7 +67,7 @@
 	return [originalRequest respondWith:[wSelf makeValidWebServerResponseWithResponse:response]];
 
 	if([response isKindOfClass:[NSString class]]) {
-		OCFResponse *webRequest = [[OCFResponse alloc] initWithStatus:0 headers:nil body:[response dataUsingEncoding:NSUTF8StringEncoding]];
+		OCFResponse *webRequest = [OCFResponse.alloc initWithStatus:0 headers:nil body:[response dataUsingEncoding:NSUTF8StringEncoding]];
 		[originalRequest respondWith:[wSelf makeValidWebServerResponseWithResponse:webRequest]];
 		return;
 	}
@@ -106,7 +99,8 @@
 
 	self.server = [OCFWebServer new]; 	__typeof__(self) __weak wSelf = self;
 	
-	[self.server addHandlerWithMatchBlock:^OCFWebServerRequest *(NSString *requestMethod, NSURL *requestURL, NSDictionary *requestHeaders, NSString *urlPath, NSDictionary *urlQuery) {
+	[self.server addHandlerWithMatchBlock:^OCFWebServerRequest *(NSString *requestMethod, NSURL *requestURL, NSDictionary *requestHeaders,
+																															 NSString *urlPath, NSDictionary *urlQuery) {
 		Class requestClass = Nil;
 		NSString *contentType = requestHeaders[@"Content-Type"];
 		
@@ -141,7 +135,7 @@
 			NSLog(@"[WebApplication] No route found for %@ %@.", request.method, request.path);
 			OCFResponse *response = nil;
 			if(wSelf.delegate && [wSelf.delegate respondsToSelector:@selector(application:asynchronousResponseForRequestWithNoAssociatedHandler:)]) {
-				OCFRequest *webRequest = [[OCFRequest alloc] initWithWebServerRequest:request parameters:nil];
+				OCFRequest *webRequest = [OCFRequest.alloc initWithWebServerRequest:request parameters:nil];
 				webRequest.method = requestMethod;
 				[webRequest setRespondWith:^(id response) {
 					response = response ?: [OCFResponse.alloc initWithStatus:404 headers:nil body:nil];
@@ -150,7 +144,7 @@
 				[wSelf.delegate application:wSelf asynchronousResponseForRequestWithNoAssociatedHandler:webRequest];
 			} else {
 				// The delegate did not return anything useful so we have to generate a 404 response
-				response = [[OCFResponse alloc] initWithStatus:404 headers:nil body:nil];
+				response = [OCFResponse.alloc initWithStatus:404 headers:nil body:nil];
 				[wSelf _handleResponse:response withOriginalRequest:request];
 				return;
 			}
@@ -162,7 +156,7 @@
 		[webRequest setRespondWith:^(id response) { [wSelf _handleResponse:response withOriginalRequest:request]; }];
 		route.requestHandler(webRequest);
 	}];
-	[self.server startWithPort:port bonjourName:nil];
+	[self.server startWithPort:port bonjourName:@"Alex" subPath:@"/persons"];
 }
 
 - (void)stop { NSAssert(self.server != nil, @"Called -stop with no running server."); 	[self.server stop]; }
@@ -177,9 +171,9 @@
 - (OCFResponse *)willDeliverResponse:(OCFResponse *)response { 	//OCFResponse *result = response;
 	
 	// Ask the Delegate first
-	
 	return [self.delegate respondsToSelector:@selector(application:willDeliverResponse:)] //responseFromDelegate
-	? (OCFResponse*)[self.delegate application:self willDeliverResponse:response] ?: response : response;
+			 ? (OCFResponse*)[self.delegate application:self willDeliverResponse:response]
+			 ?: response : response;
 	
 	// Last chance for SinApplication to modify the response
 //	return result;
@@ -187,13 +181,13 @@
 
 #pragma mark - Private Helper Methods
 - (NSDictionary *)parametersFromRequest:(OCFWebServerRequest *)request withRoute:(OCFRoute *)route {
+
 	NSDictionary *patternParameters = [route parametersWithRequestPath:request.URL.path];
-	
 	NSMutableDictionary *result; //, *requestParameters;
 	 
 	[result = NSMutableDictionary.new addEntriesFromDictionary:patternParameters];
 	[result addEntriesFromDictionary: request.additionalParameters_ocf]; // requestParameters
-	
+
 	if(request.query != nil) 	[result addEntriesFromDictionary:request.query];
 	return result;
 }
@@ -201,27 +195,43 @@
 // Pass a potential invalid response to this method.
 - (OCFResponse *)makeResponseValidAccordingToConfiguration:(OCFResponse *)response { NSParameterAssert(response);
 
-	NSInteger status = response.status ?: self.configuration.defaultStatus_ocf; 	// Check the status
+	NSInteger status										= response.status ?: self.configuration.defaultStatus_ocf; 	// Check the status
 	NSMutableDictionary *mutableHeaders = response.headers.mutableCopy;	// Headers and Content-Type
-	if(response.contentType == nil)  mutableHeaders[@"Content-Type"] = self.configuration.defaultContentType_ocf;
+	if(response.contentType == nil)
+			mutableHeaders[@"Content-Type"] = self.configuration.defaultContentType_ocf;
 	[mutableHeaders addEntriesFromDictionary:self.configuration.defaultHeaders_ocf];
 	return [OCFResponse.alloc initWithStatus:status headers:mutableHeaders body:response.body]; // validResponse
 }
 
-- (OCFWebServerResponse *)makeValidWebServerResponseWithResponse:(OCFResponse *)response { NSParameterAssert(response);
-	OCFResponse *validResponse 	= [self makeResponseValidAccordingToConfiguration:response], 
-					*modifiedResponse = [self willDeliverResponse:validResponse];
-					validResponse 		= [self makeResponseValidAccordingToConfiguration:modifiedResponse];
-									 return [self _makeWebServerResponseWithResponse:validResponse];
+- (OCFWebServerResponse *)makeValidWebServerResponseWithResponse:(OCFResponse*)response { NSParameterAssert(response);
+
+	OCFResponse *validResponse = [self makeResponseValidAccordingToConfiguration:         response],
+					 *modifiedResponse = [self willDeliverResponse:												 	 validResponse];
+					     validResponse = [self makeResponseValidAccordingToConfiguration: modifiedResponse];
+												return [self _makeWebServerResponseWithResponse:					 validResponse];
 }
 
 - (OCFWebServerResponse *)_makeWebServerResponseWithResponse:(OCFResponse *)response {	NSParameterAssert(response);
 	
 	OCFWebServerResponse *result = [OCFWebServerDataResponse responseWithData:response.body contentType:response.contentType];
+
 	[response.headers enumerateKeysAndObjectsUsingBlock:^(NSString *headerName, NSString *headerValue, BOOL *stop) {
 		[result setValue:headerValue forAdditionalHeader:headerName];
 	}];
+
 	result.statusCode = response.status;		return result;
 }
 
 @end
+
+
+
+//+ (void)initialize {    if(self == [SinApplication class]) {
+//#if !defined(NS_BLOCK_ASSERTIONS)
+//        [GRMustache preventNSUndefinedKeyExceptionAttack];  // Debug configuration: keep GRMustache quiet
+//#endif
+//}	}
+
+
+// The MIT License (MIT) Copyright (c) 2013 Objective-Cloud (chris@objective-cloud.com)
+// https://github.com/Objective-Cloud/OCFWeb
